@@ -1,5 +1,7 @@
 document.getElementById("button").addEventListener('click',function(){
 	run(gen).catch(function(err){
+		document.getElementById("filmsText").innerHTML = "Film: <br>&nbsp";
+		document.getElementById("peopleText").innerHTML = "Characters: <br>";
 		alert(err.message);
 	});
 })
@@ -9,7 +11,10 @@ function* gen(){
 	if(document.getElementById("input").value > 7 || document.getElementById("input").value < 1 ){
 		throw new Error("Invalid Input - Enter a number between 1 and 7");
 	}
-
+	
+	document.getElementById("filmsText").innerHTML = "Film: <br>Loading...";
+	document.getElementById("peopleText").innerHTML = "Characters: <br>Loading...";
+	
 	//fetch the film
 	var filmResponse = yield fetch("https://swapi.co/api/films/" + document.getElementById("input").value);
 	var film = yield filmResponse.json();
@@ -23,8 +28,7 @@ function* gen(){
 		characterString += tempCharacter.name + "<br>";
 	}
 			
-	document.getElementById("filmsText").innerHTML = "Film: <br>Loading...";
-	document.getElementById("peopleText").innerHTML = "Characters: <br>Loading...";
+	
 			
 	//display film title and film characters
 	document.getElementById("filmsText").innerHTML = "Film: <br>" + film.title;
